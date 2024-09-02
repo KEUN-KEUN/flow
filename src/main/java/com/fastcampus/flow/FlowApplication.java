@@ -9,7 +9,13 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class FlowApplication{
+public class FlowApplication {
+	public static void main(String[] args) {
+		SpringApplication.run(FlowApplication.class, args);
+	}
+}
+/*
+public class FlowApplication implements ApplicationListener<ApplicationReadyEvent> {
 	private final ReactiveRedisTemplate<String, String> reactiveRedisTemplate;
 
 	public static void main(String[] args) {
@@ -21,3 +27,4 @@ public class FlowApplication{
 	}
 
 }
+*/
