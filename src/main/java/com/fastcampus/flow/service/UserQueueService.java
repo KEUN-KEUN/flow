@@ -14,11 +14,14 @@ public class UserQueueService {
 
     // 대기열 등록 api
 
-    public Mono<Boolean> registerWaitQueue(final Long userId){
+    public Mono<Long> registerWaitQueue(final Long userId){
         // redis sortedest
         // key : userid
         // value : unix timestamp
         var unixTimestamp = Instant.now().getEpochSecond();
-        return reactiveRedisTemplate.opsForZSet().add("user-queue", userId.toString(), unixTimestamp);
+        return reactiveRedisTemplate.opsForZSet().add("user-queue", userId.toString(), unixTimestamp)
+                .filter(i->i)
+                .switchIfEmpty(Mono.error(new Exception("already register error....")))
+                .flatMap(i -> reactiveRedisTemplate.opsForZSet().rank("user-queue",userId.toString()));
     }
 }
