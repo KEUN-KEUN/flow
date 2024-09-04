@@ -15,7 +15,7 @@ public class ApplicationAdvice {
                 .body(new ServerExceptionResponse(ex.getCode(), ex.getReason())));
     }
 
-    public record ServerExceptionResponse(String code, String reason){
+    public record ServerExceptionResponse(String code, String reason) {
 
     }
 }

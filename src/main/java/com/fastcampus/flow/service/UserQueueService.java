@@ -12,15 +12,33 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class UserQueueService {
     private final ReactiveRedisTemplate<String, String> reactiveRedisTemplate;
+    private final String USER_QUEUE_WAIT_KEY = "users:queue:%s:wait";
+    private final String USER_QUEUE_PROCEED_KEY = "users:queue:%s:proceed";
 
-    private final String USER_QUEUE_WAIT_KEY = "user:queue:%S:wait";
 
     public Mono<Long> registerWaitQueue(final String queue, final Long userId){
         var unixTimestamp = Instant.now().getEpochSecond();
         return reactiveRedisTemplate.opsForZSet().add(USER_QUEUE_WAIT_KEY.formatted(queue), userId.toString(), unixTimestamp)
                 .filter(i->i)
-                .switchIfEmpty(Mono.error(ErrorCode.QUEUE_ALREADY_REGISTERD_USER.build()))
+                .switchIfEmpty(Mono.error(ErrorCode.QUEUE_ALREADY_REGISTERED_USER.build()))
                 .flatMap(i -> reactiveRedisTemplate.opsForZSet().rank(USER_QUEUE_WAIT_KEY.formatted(queue), userId.toString()))
                 .map(i -> i >= 0 ? i+1: i);
     }
+
+
+
+    // 진입이 가능한 상태인지 조회
+
+    // 진입을 허용
+    /*
+    public Mono<?> allowUser(final String queue, final Long count){ // count : 몇개의 인자를 허용할지
+        // 진입을 허용하는 단계
+        // 1. wait queue 사용자를 제거
+        // 2. proceed queue 사용자를 추가
+        return reactiveRedisTemplate.opsForZSet().popMin(USER_QUEUE_WAIT_KEY.formatted(queue), count)
+                .flatMap(member -> reactiveRedisTemplate.opsForZSet().add(USER_QUEUE_PROCEED_KEY.formatted(queue), member.getValue(), Instant.now().getEpochSecond()))
+                .count();
+    }
+    */
+    
 }
