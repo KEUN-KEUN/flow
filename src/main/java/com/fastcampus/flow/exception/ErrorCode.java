@@ -1,12 +1,12 @@
 package com.fastcampus.flow.exception;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 public enum ErrorCode {
     QUEUE_ALREADY_REGISTERED_USER(HttpStatus.CONFLICT, "UQ-0001", "Already registered in queue");
-    //QUEUE_ALREADY_REGISTERED_USER(HttpStatus.CONFLICT, "UQ-0001", "Already registered");
 
     private final HttpStatus httpStatus;
     private final String code;

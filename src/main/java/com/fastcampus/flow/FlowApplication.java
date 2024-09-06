@@ -15,6 +15,8 @@ public class FlowApplication {
 	}
 }
 /*
+http://127.0.0.1:9010/waiting-room?user_id=510&redirect_rul=http://www.naver.com
+
 public class FlowApplication implements ApplicationListener<ApplicationReadyEvent> {
 	private final ReactiveRedisTemplate<String, String> reactiveRedisTemplate;
 
