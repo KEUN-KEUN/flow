@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -27,7 +28,7 @@
 <body>
 <div class="message">
     <h1>접속량이 많습니다.</h1>
-    <span>현재 대기 순번 </span><span id="number">[[${number}]]</span><span> 입니다.</span>
+    <span id="user_id">[[${userId}]]</span><span>현재 대기 순번 </span><span id="number">[[${number}]]</span><span> 입니다.</span>
     <br/>
     <p>서버의 접속량이 많아 시간이 걸릴 수 있습니다.</p>
     <p>잠시만 기다려주세요.</p>
@@ -35,7 +36,6 @@
     <br/>
 </div>
 <script>
-    // 접속 가능 확인 스케줄러
     function fetchWaitingRank() {
         const queue = '[[${queue}]]';
         const userId = '[[${userId}]]';
