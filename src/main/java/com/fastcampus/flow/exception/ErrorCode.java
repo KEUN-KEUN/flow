@@ -20,3 +20,4 @@ public enum ErrorCode {
         return new ApplicationException(httpStatus, code, reason.formatted(args));
     }
 }
+
