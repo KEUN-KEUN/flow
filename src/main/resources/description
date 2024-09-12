@@ -1,0 +1,24 @@
+
+### 다이어그램
+https://www.websequencediagrams.com/app
+title 접속자 대기열 시스템
+
+User->SpringMVC: 접속
+SpringMVC->SpringWebFlux: queue, userId
+SpringWebFlux->Redis: queue, userId (접속 가능 확인)
+Redis-->SpringWebFlux: 대기 전송
+SpringWebFlux-->SpringMVC: 대기
+SpringMVC->SpringWebFlux: 대기열 등록 및 대기 웹페이지 응답
+SpringWebFlux->Redis: 대기 요청
+Redis-->SpringWebFlux: 대기 생성
+SpringWebFlux-->User: 대기 Token, Cache 저장
+User->SpringWebFlux: 접속 가능 확인(Timer) 및 Redirect
+SpringWebFlux->Redis: 확인 요청
+Redis-->SpringWebFlux: 결과 전송
+SpringWebFlux-->User: 결과
+User->SpringMVC: 접속
+SpringMVC->SpringWebFlux:접속 확인 요청
+SpringWebFlux->Redis: 요청
+Redis-->SpringWebFlux: 접속 가능
+SpringWebFlux-->SpringMVC: 접속
+SpringMVC-->User: 응답
